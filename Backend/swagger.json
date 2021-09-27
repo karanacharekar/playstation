@@ -1,0 +1,117 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Feature Flag Micro Service",
+    "description": "A sample API that interacts with Feature Flag DB",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/featureflags": {
+      "get": {
+        "description": "Returns all feature flags and their values",
+        "operationId": "findFlags",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "feature flags response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FeatureFlag"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates or updates a feature flag",
+        "operationId": "updateFlag",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "flag",
+            "in": "body",
+            "description": "Flag to Set",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FeatureFlag"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "feature flags response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FeatureFlag"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FeatureFlag": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "name": {
+              "type": "string"
+            },"value": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
